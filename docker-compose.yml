@@ -1,0 +1,28 @@
+version: "3"
+services:
+  redis:
+    image: redis
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "3306:5432"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+  vote:
+    image: voting-app
+    build: ./vote
+    ports:
+      - "4000:8080"
+  result:
+    image: result-app
+    build: ./result
+    ports:
+      - "4001:8080"
+  worker:
+    image: worker
+    build: ./worker
+
+volumes:
+  pg-data:
